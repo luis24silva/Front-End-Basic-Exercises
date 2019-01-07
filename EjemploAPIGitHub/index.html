@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>API GitHub</title>
+</head>
+
+<body>
+    <h1>Extraer datos de API GitHub</h1>
+    <div>
+        <p>Aplicación que muestra la información de el usuario de GibHub que busquemos en el campo de texto. Obtendremos dicha información a partir de un API de <i>GitHub</i> (mediante una URL de dicha API), la cual nos enviara un objeto JSON, de dicho objeto extraremos los campos necesarios para mostrar la información del usuario (fotografia, nombre de usuario y un link a su blog)</p>
+
+        <p>Para empezar, teclea al usuario <strong>brendaneich</strong></p>
+        <input type="text" name="" id="nombreSearch">
+        <button onclick="searchFunction()">Buscar</button>
+    </div>
+    <div class="fotografia"></div>
+    <!--Bild-->
+    <div class="nombreUsuario"></div>
+    <!--Name-->
+    <div class="blogField">
+        <!--Blog-->
+    </div>
+</body>
+<script src="ajaxRequestFunctions.js"></script><!-- En este archivo se encuentran las definiciones de las funciones getServiceAPI() y setDataInDOM() -->
+<script type="text/javascript">
+function searchFunction() {
+    var usuario = document.getElementById("nombreSearch").value; //Obtenemos id del usuario del campo de texto.
+    if (usuario != "") {
+        //console.log("https://api.github.com/users/" + usuario);
+        getServiceAPI("https://api.github.com/users/" + usuario, setDataInDOM);
+    }
+}
+</script>
+
+</html>

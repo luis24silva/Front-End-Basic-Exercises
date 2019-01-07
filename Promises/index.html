@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>API GitHub</title>
+</head>
+
+<body>
+    <h1>Extraer datos de API GitHub</h1>
+    <div>
+        <p>Aplicación que muestra la información de el usuario de GibHub que busquemos en el campo de texto. Obtendremos dicha información a partir de un API de <i>GitHub</i> (mediante una URL de dicha API), la cual nos enviara un objeto JSON, de dicho objeto extraremos los campos necesarios para mostrar la información del usuario (fotografia, nombre de usuario y un link a su blog)</p>
+
+        <p>Para empezar, teclea al usuario <strong>brendaneich</strong></p>
+        <input type="text" name="" id="nombreSearch">
+        <button onclick="searchFunction()">Buscar</button>
+    </div>
+    <div id="root"></div>
+    <div class="fotografia">
+    </div>
+    <div class="nombreUsuario">
+    </div>
+    <div class="blogField">
+    </div>
+</body>
+<script src="ajaxRequestFunctionsPromises.js"></script><!-- En este archivo se encuentran las definiciones de las funciones getServiceAPI() y setDataInDOM() -->
+<script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js"></script>
+<script type="text/babel">
+
+function searchFunction() {
+    var usuario = document.getElementById("nombreSearch").value; //Obtenemos id del usuario del campo de texto.
+
+    if (usuario != "") {
+    //console.log("https://api.github.com/users/" + usuario);
+    getServicewPromise("https://api.github.com/users/" + usuario)
+    .then( (response) => {
+        console.log('Exito: ' + response)
+        return response;
+    }).catch( (err) => {
+        console.log("Error: " + err)
+    }).then( user => {
+renderComponent(user) 
+setDataInDOM(user);
+})
+    .catch( console.log) ;
+}
+}
+
+const Bibliography = ({user = {} }) => {
+    const {avatar_url,name,blog} = user;
+    return (
+        <React.Fragment>
+        <div>
+        <img src={avatar_url} />
+        </div>
+        <div>
+        <p>{name}</p>
+        </div>
+        <div >
+        <a href={blog}> {blog}</a>
+        </div>
+        </React.Fragment>
+        );
+
+};
+
+
+const rootElement = document.getElementById("root");
+
+function renderComponent(user){
+    console.log(user); 
+    if(!user) {
+        throw new Error("No user") 
+    } else {
+        const userParsed = JSON.parse(user);
+        ReactDOM.render(<Bibliography user={userParsed}/>, rootElement);
+    }
+}
+
+
+
+</script>
+
+</html>
